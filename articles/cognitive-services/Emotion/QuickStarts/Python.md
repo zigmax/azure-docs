@@ -29,7 +29,7 @@ Copy the appropriate section for your version of Python and save it to a file su
 
 ```python
 ########### Python 2.7 #############
-import httplib, urllib, base64
+import httplib, urllib, base64, json
 
 headers = {
     # Request headers. Replace the placeholder key below with your subscription key.
@@ -51,15 +51,20 @@ try:
     conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body, headers)
     response = conn.getresponse()
     data = response.read()
-    print(data)
+ 
+    # 'data' contains the JSON data. The following formats the JSON data for display.
+    parsed = json.loads(data)
+    print ("Response:")
+    print (json.dumps(parsed, sort_keys=True, indent=2))
     conn.close()
+    
 except Exception as e:
     print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
 ####################################
 
 ########### Python 3.2 #############
-import http.client, urllib.request, urllib.parse, urllib.error, base64, sys
+import http.client, urllib.request, urllib.parse, urllib.error, base64, sys, json
 
 headers = {
     # Request headers. Replace the placeholder key below with your subscription key.
@@ -81,8 +86,13 @@ try:
     conn.request("POST", "/emotion/v1.0/recognize?%s" % params, body, headers)
     response = conn.getresponse()
     data = response.read()
-    print(data)
+    
+    # 'data' contains the JSON data. The following formats the JSON data for display.
+    parsed = json.loads(data)
+    print ("Response:")
+    print (json.dumps(parsed, sort_keys=True, indent=2))
     conn.close()
+    
 except Exception as e:
     print(e.args)
 ####################################
